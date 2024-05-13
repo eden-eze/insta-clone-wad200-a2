@@ -8,9 +8,21 @@ import ChatIcon from "@mui/icons-material/Chat";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Avatar } from "@mui/material"
+import { useDispatch, useSelector } from 'react-redux';
+import { auth } from '../firebase';
+import { logoutUser } from '../features/userSlice';
+import { signOut } from 'firebase/auth';
 
 
 function Sidenav() {
+  const user = useSelector((state) => state.data.user.user);
+const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    signOut(auth);
+
+  }
   return (
     <div className="sidenav">
               <img
@@ -46,6 +58,13 @@ function Sidenav() {
             <button className="sidenav__button">
             <AddCircleOutlineIcon />
             <span>Create</span>
+            </button>
+            <button className="sidenav__button">
+            <Avatar>A</Avatar>
+            <span>
+              {user.username}
+              <button onClick={handleLogout} className="logout__button">Logout</button>
+            </span>
             </button>
 
         </div>
